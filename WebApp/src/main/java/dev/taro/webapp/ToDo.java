@@ -6,11 +6,12 @@ public class ToDo {
     private boolean done;
     private int id;
 
-    ToDo(String title, String username, int id) {
+    public ToDo() {}
+    public ToDo(int id, String username, String title, boolean done) {
         this.title = title;
         this.username = username;
         this.id = id;
-        this.done = false;
+        this.done = done;
     }
     public String getTitle() {
         return title;
