@@ -1,0 +1,50 @@
+package dev.taro.webapp.servlet;
+
+import dev.taro.webapp.Routable;
+import dev.taro.webapp.database.DatabaseManager;
+import dev.taro.webapp.service.SecurityService;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+
+public class EditToDoServlet extends HttpServlet implements Routable {
+    // Servlet
+    private SecurityService securityService;
+    private final DatabaseManager databaseManager = new DatabaseManager();
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String oldTitle = request.getParameter("title");
+        String newTitle = request.getParameter("newTitle");
+        if (!StringUtils.isBlank(oldTitle) && !StringUtils.isBlank(newTitle)) {
+            if (securityService.isAuthorized(request)) {
+                databaseManager.updateTitle(username, oldTitle, newTitle);
+                response.sendRedirect("/todolist");
+            }
+            else {
+                response.sendRedirect("/login");
+            }
+        } else {
+            String error = "Title is missing.";
+            request.setAttribute("error", error);
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/edit.jsp");
+            rd.include(request, response);
+        }
+    }
+
+    // Routable
+    @Override
+    public String getMapping() {
+        return "/edit";
+    }
+    @Override
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
+    }
+}
+
