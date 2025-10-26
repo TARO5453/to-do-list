@@ -1,9 +1,13 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title> TO-DO List </title>
-</head>
+<div align="right">
+    <span style="margin-right: 10px;">${username}</span>
+    <a href="${pageContext.request.contextPath}/logout">Logout</a>
+</div>
+    <head>
+        <title> TO-DO List </title>
+    </head>
 <body>
     <h1 align="center"> Your to-do list</h1>
     <div align="center">

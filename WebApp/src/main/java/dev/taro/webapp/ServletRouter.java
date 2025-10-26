@@ -2,6 +2,7 @@ package dev.taro.webapp;
 import dev.taro.webapp.service.SecurityService;
 import dev.taro.webapp.servlet.DefaultServlet;
 import dev.taro.webapp.servlet.LoginServlet;
+import dev.taro.webapp.servlet.LogoutServlet;
 import dev.taro.webapp.servlet.ToDoListServlet;
 import jakarta.servlet.http.HttpServlet;
 import org.apache.catalina.Context;
@@ -15,6 +16,7 @@ public class ServletRouter {
 
     static {
         routables.add(LoginServlet.class);
+        routables.add(LogoutServlet.class);
         routables.add(ToDoListServlet.class);
         routables.add(DefaultServlet.class);
     }
