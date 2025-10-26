@@ -1,6 +1,6 @@
 package dev.taro.webapp;
 import dev.taro.webapp.service.SecurityService;
-import dev.taro.webapp.servlet.HomeServlet;
+import dev.taro.webapp.servlet.DefaultServlet;
 import dev.taro.webapp.servlet.LoginServlet;
 import dev.taro.webapp.servlet.ToDoListServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,9 +14,9 @@ public class ServletRouter {
     private static final List<Class<? extends Routable>> routables = new ArrayList<>();
 
     static {
-        routables.add(HomeServlet.class);
         routables.add(LoginServlet.class);
         routables.add(ToDoListServlet.class);
+        routables.add(DefaultServlet.class);
     }
 
     private SecurityService securityService;
