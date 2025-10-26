@@ -4,7 +4,7 @@ import io.muzoo.ssc.assignment.tracker.SscAssignment;
 import dev.taro.webapp.service.SecurityService;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
-public class ToDoList extends SscAssignment{
+public class WebApp extends SscAssignment{
     public static void main(String[] args) {
         TomcatEnvironment.init();
         Tomcat tomcat = new Tomcat();
