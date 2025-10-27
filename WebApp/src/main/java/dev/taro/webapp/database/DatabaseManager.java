@@ -1,13 +1,22 @@
 package dev.taro.webapp.database;
 
+import com.zaxxer.hikari.HikariDataSource;
 import dev.taro.webapp.ToDo;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager {
     private static final String URL = "jdbc:sqlite:data/todo.db";
+    private static final HikariDataSource ds = new HikariDataSource();
+    static {
+        ds.setJdbcUrl(URL);
+    }
+    public static DataSource getDataSource() {
+        return ds;
+    }
     public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS todos (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -15,10 +24,9 @@ public class DatabaseManager {
                 "title TEXT NOT NULL," +
                 "done INTEGER NOT NULL DEFAULT 0)";
         // default every to-do is initialized with done = false
-
-        try (Connection connection = DriverManager.getConnection(URL);
-             Statement st = connection.createStatement()){
-            st.executeUpdate(sql);
+        try (Connection connection = getDataSource().getConnection();
+             PreparedStatement st = connection.prepareStatement(sql)){
+            st.executeUpdate();
         }
         catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -27,7 +35,7 @@ public class DatabaseManager {
     // CRUD
     // Create
     public void create(ToDo td) {
-        try ( Connection connection = DriverManager.getConnection(URL);
+        try ( Connection connection = getDataSource().getConnection();
               PreparedStatement ps = connection.prepareStatement(
                 "INSERT INTO todos (username, title, done) VALUES (?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)
@@ -48,7 +56,7 @@ public class DatabaseManager {
     }
     // Update
     public void updateTitle(String username, String oldTitle, String newTitle) {
-        try (Connection connection = DriverManager.getConnection(URL);
+        try (Connection connection = getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(
                 "UPDATE todos SET title = ? WHERE username = ? AND title = ?;")
         ){
@@ -62,7 +70,7 @@ public class DatabaseManager {
         }
     }
     public void updateDone(String username, String title ,Boolean done) {
-        try (Connection connection = DriverManager.getConnection(URL);
+        try (Connection connection = getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(
                 "UPDATE todos SET done = ? WHERE username = ? AND title = ?;")
         ){
@@ -79,7 +87,7 @@ public class DatabaseManager {
     public List<ToDo> readAll() {
         List<ToDo> list = new ArrayList<>();
         String sql = "SELECT * FROM todos";
-        try(Connection connection = DriverManager.getConnection(URL);
+        try(Connection connection = getDataSource().getConnection();
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(sql)) {
             while(rs.next()){
@@ -97,10 +105,9 @@ public class DatabaseManager {
     }
     public List<ToDo> read(String username) {
         List<ToDo> list = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(URL);
+        try (Connection connection = getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                "SELECT * FROM todos WHERE username = ?",
-                Statement.RETURN_GENERATED_KEYS)
+                "SELECT * FROM todos WHERE username = ?")
         ){
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -119,10 +126,9 @@ public class DatabaseManager {
     }
     public ToDo read(String username, String title) {
         ToDo td = null;
-        try (Connection connection = DriverManager.getConnection(URL);
+        try (Connection connection = getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                "SELECT * FROM todos WHERE username = ? AND title = ?;",
-                Statement.RETURN_GENERATED_KEYS)
+                "SELECT * FROM todos WHERE username = ? AND title = ?;")
         ){
             ps.setString(1, username);
             ps.setString(2, title);
@@ -141,10 +147,9 @@ public class DatabaseManager {
     }
     // Delete
     public void delete(String username, String title) {
-        try (Connection connection = DriverManager.getConnection(URL);
+        try (Connection connection = getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                "DELETE FROM todos WHERE username = ? AND title = ?;",
-                Statement.RETURN_GENERATED_KEYS)
+                "DELETE FROM todos WHERE username = ? AND title = ?;")
         ){
             ps.setString(1, username);
             ps.setString(2, title);
