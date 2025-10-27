@@ -18,6 +18,16 @@ public class EditToDoServlet extends HttpServlet implements Routable {
     private SecurityService securityService;
     private final DatabaseManager databaseManager = new DatabaseManager();
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/edit.jsp");
+        rd.forward(request, response);
+    }
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get username from the session
         HttpSession session = request.getSession(false);
@@ -27,7 +37,7 @@ public class EditToDoServlet extends HttpServlet implements Routable {
         }
 
         String username = (String) session.getAttribute("username");
-        String oldTitle = request.getParameter("title");
+        String oldTitle = request.getParameter("oldTitle");
         String newTitle = request.getParameter("newTitle");
         if (!StringUtils.isBlank(oldTitle) && !StringUtils.isBlank(newTitle)) {
             if (securityService.isAuthorized(request)) {

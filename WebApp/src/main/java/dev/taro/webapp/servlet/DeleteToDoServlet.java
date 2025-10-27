@@ -17,6 +17,16 @@ public class DeleteToDoServlet extends HttpServlet implements Routable {
     private SecurityService securityService;
     private final DatabaseManager databaseManager = new DatabaseManager();
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/delete.jsp");
+        rd.forward(request, response);
+    }
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get username from the session
         HttpSession session = request.getSession(false);
