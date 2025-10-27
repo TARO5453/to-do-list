@@ -1,33 +1,23 @@
 package dev.taro.webapp.service;
 
+import dev.taro.webapp.database.UserDatabaseManager;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- *
- * @author gigadot
- */
 public class SecurityService {
 
-    private final Map<String, String> userCredentials = new HashMap<String, String>() {{
-        put("admin", "123456");
-        put("muic", "1111");
-        put("bob", "bob");
-    }};
+    private final UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
 
     public boolean isAuthorized(HttpServletRequest request) {
-        String username = (String) request.getSession()
-                .getAttribute("username");
+        String username = (String) request.getSession().getAttribute("username");
         // do checking
-        return (username != null && userCredentials.containsKey(username));
+        return (username != null && userDatabaseManager.exists(username));
     }
 
     public boolean authenticate(String username, String password, HttpServletRequest request) {
-        String passwordInDB = userCredentials.get(username);
-        boolean isMatched = StringUtils.equals(password, passwordInDB);
+        String hashedPassword = userDatabaseManager.findUserByUsername(username);
+        if (hashedPassword == null) {
+            return false;
+        }
+        boolean isMatched = userDatabaseManager.checkPassword(password, hashedPassword);
         if (isMatched) {
             request.getSession().setAttribute("username", username);
             return true;

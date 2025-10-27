@@ -99,7 +99,7 @@ public class UserDatabaseManager {
         // default 2^10
         return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
     }
-    private boolean checkPassword(String plainText, String hashed) {
+    public boolean checkPassword(String plainText, String hashed) {
         return BCrypt.checkpw(plainText, hashed);
     }
 
