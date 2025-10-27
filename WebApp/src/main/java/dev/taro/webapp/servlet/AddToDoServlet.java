@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -18,7 +19,14 @@ public class AddToDoServlet extends HttpServlet implements Routable {
     private final DatabaseManager databaseManager = new DatabaseManager();
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
+        // Get username from the session
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        String username = (String) session.getAttribute("username");
         String title = request.getParameter("title");
         if (title != null && !title.isBlank()) {
             if (securityService.isAuthorized(request)) {
