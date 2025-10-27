@@ -20,6 +20,7 @@ public class ServletRouter {
         routables.add(ToggleToDoServlet.class);
         routables.add(DeleteToDoServlet.class);
         routables.add(EditToDoServlet.class);
+        routables.add(RegisterServlet.class);
     }
 
     private SecurityService securityService;

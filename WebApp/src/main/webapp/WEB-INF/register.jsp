@@ -1,9 +1,9 @@
 <html>
 <body>
 <div align="center">
-    <h2>Login</h2>
+    <h2>Sign in</h2>
     <p>${error}</p>
-    <form action="/login" method="post">
+    <form action="/register" method="post">
         Username:<br/>
         <input type="text" name="username"/>
         <br/>
@@ -13,8 +13,8 @@
         <input type="submit" value="Submit">
     </form>
     <button>
-        <a href="${pageContext.request.contextPath}/register" style="text-decoration: none; color: black;">
-            register a new account
+        <a href="${pageContext.request.contextPath}/login" style="text-decoration: none; color: black;">
+            Cancel
         </a>
     </button>
 </div>
