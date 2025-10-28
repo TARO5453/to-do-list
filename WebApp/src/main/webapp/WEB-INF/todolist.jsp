@@ -12,11 +12,21 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
     >
+    <!-- Font Awesome (v6.5) -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
 </head>
 
 <body class="bg-light text-dark">
     <!-- log out button -->
     <div class="d-flex justify-content-end p-3 bg-dark text-white">
+        <div style="margin: 5px">
+            <i class="fa-solid fa-user" ></i>
+        </div>
         <span class="me-3"><c:out value="${username}" /></span>
         <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-light btn-sm">Logout</a>
     </div>
@@ -24,7 +34,7 @@
 
         <h1 class="text-center mb-4"> Your to-do list</h1>
 
-        <table class="table  align-middle" border="1" style="table-layout: auto; width: 100%">
+        <table class="table  align-middle table-hover" border="1" style="table-layout: auto; width: 100%">
             <thead class="light-secondary">
             <tr>
                 <td style="width: 85%">Title</td>
@@ -39,11 +49,15 @@
                         <!-- A button to toggle the done status -->
                         <form action="${pageContext.request.contextPath}/toggle" method="post" style="display:inline;">
                             <input type="hidden" name="title" value="<c:out value='${todo.title}' />">
-                            <span class="me-2"><c:out value="${todo.done ? '✅' : '❌'}"/></span>
+                            <span class="me-2"><c:out value="${todo.done ? 'Complete' : 'Incomplete'}"/></span>
                             <button class="btn btn-secondary btn-sm" type="submit">
                                 <c:choose>
-                                    <c:when test="${todo.done}">Undone</c:when>
-                                    <c:otherwise>Done</c:otherwise>
+                                    <c:when test="${todo.done}">
+                                        <i class="fa-solid fa-check"></i>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </c:otherwise>
                                 </c:choose>
                             </button>
                         </form>
@@ -52,13 +66,13 @@
             </c:forEach>
         </table>
         <a class="btn btn-primary me-2" href="${pageContext.request.contextPath}/add" style="text-decoration: none; border: black">
-            Add
+            <i class="fa-solid fa-plus"></i> Add
         </a>
         <a class="btn btn-primary me-2" href="${pageContext.request.contextPath}/edit" style="text-decoration: none; border: black">
-            Edit
+            <i class="fa-solid fa-pen-to-square"></i> Edit
         </a>
         <a class="btn btn-primary me-2" href="${pageContext.request.contextPath}/delete" style="text-decoration: none; border: black">
-            Delete
+            <i class="fa-solid fa-trash"></i> Delete
         </a>
     </div>
 </body>
