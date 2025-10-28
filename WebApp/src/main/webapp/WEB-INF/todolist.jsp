@@ -17,7 +17,7 @@
 <body class="bg-light text-dark">
     <!-- log out button -->
     <div class="d-flex justify-content-end p-3 bg-dark text-white">
-        <span class="me-3">${username}</span>
+        <span class="me-3"><c:out value="${username}" /></span>
         <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-light btn-sm">Logout</a>
     </div>
     <div class="container mt-5">
@@ -34,11 +34,11 @@
             <!-- Loop through the todos list -->
             <c:forEach var="todo" items="${todos}">
                 <tr>
-                    <td>${todo.title}</td>
+                    <td><c:out value="${todo.title}" /></td>
                     <td>
                         <!-- A button to toggle the done status -->
                         <form action="${pageContext.request.contextPath}/toggle" method="post" style="display:inline;">
-                            <input type="hidden" name="title" value="${todo.title}">
+                            <input type="hidden" name="title" value="<c:out value='${todo.title}' />">
                             <span class="me-2"><c:out value="${todo.done ? '✅' : '❌'}"/></span>
                             <button class="btn btn-secondary btn-sm" type="submit">
                                 <c:choose>

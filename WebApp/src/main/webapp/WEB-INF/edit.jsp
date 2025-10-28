@@ -18,7 +18,9 @@
     <h2>Edit to-do</h2>
 
     <c:if test="${not empty error}">
-        <div class="alert alert-danger text-center p-2">${error}</div>
+        <div class="alert alert-danger text-center p-2">
+            <c:out value="${error}" />
+        </div>
     </c:if>
 
     <form action="${pageContext.request.contextPath}/edit" method="post">
@@ -30,6 +32,7 @@
                     name="oldTitle"
                     class="form-control"
                     placeholder="Enter current title name"
+                    value="<c:out value='${oldTitle}' />"
                     required
             >
         </div>
@@ -41,6 +44,7 @@
                     name="newTitle"
                     class="form-control"
                     placeholder="Enter current new title"
+                    value="<c:out value='${newTitle}' />"
                     required
             >
         </div>
