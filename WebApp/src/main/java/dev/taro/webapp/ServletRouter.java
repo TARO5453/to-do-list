@@ -4,7 +4,6 @@ import dev.taro.webapp.servlet.*;
 import jakarta.servlet.http.HttpServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
-
 import java.util.ArrayList;
 import java.util.List;
 public class ServletRouter {
@@ -21,6 +20,7 @@ public class ServletRouter {
         routables.add(DeleteToDoServlet.class);
         routables.add(EditToDoServlet.class);
         routables.add(RegisterServlet.class);
+        routables.add(Error404Servlet.class);
     }
 
     private SecurityService securityService;
@@ -44,5 +44,4 @@ public class ServletRouter {
             }
         }
     }
-
 }

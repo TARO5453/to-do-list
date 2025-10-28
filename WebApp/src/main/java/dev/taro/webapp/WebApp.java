@@ -4,6 +4,8 @@ import io.muzoo.ssc.assignment.tracker.SscAssignment;
 import dev.taro.webapp.service.SecurityService;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.descriptor.web.ErrorPage;
+
 public class WebApp extends SscAssignment{
     public static void main(String[] args) {
         TomcatEnvironment.init();
@@ -15,8 +17,13 @@ public class WebApp extends SscAssignment{
         SecurityService securityService = new SecurityService();
         ServletRouter servletRouter = new ServletRouter();
         servletRouter.setSecurityService(securityService);
-
         Context ctx = tomcat.addWebapp("", TomcatEnvironment.getDocBase().getAbsolutePath());
+
+        // Handle the error 404
+        ErrorPage errorPage = new ErrorPage();
+        errorPage.setErrorCode(404);
+        errorPage.setLocation("/error404");
+        ctx.addErrorPage(errorPage);
 
         servletRouter.init(ctx);
 
