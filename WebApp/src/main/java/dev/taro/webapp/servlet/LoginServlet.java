@@ -1,18 +1,13 @@
 package dev.taro.webapp.servlet;
 import java.io.IOException;
 
-import dev.taro.webapp.Routable;
-import dev.taro.webapp.service.SecurityService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
-public class LoginServlet extends HttpServlet implements Routable {
-
-    private SecurityService securityService;
+public class LoginServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,19 +22,23 @@ public class LoginServlet extends HttpServlet implements Routable {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
+            System.out.println("Before auth: " + request.getSession().getId());
             if (securityService.authenticate(username, password, request)) {
-                response.sendRedirect("/todolist");
+                System.out.println("Session ID: " + request.getSession().getId());
+                response.sendRedirect(request.getContextPath() +"/todolist");
+                System.out.println("Username in session: " + request.getSession().getAttribute("username"));
             } else {
                 String error = "Wrong username or password.";
                 request.setAttribute("error", error);
                 RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-                rd.include(request, response);
+                rd.forward(request, response);
             }
+            System.out.println("After auth: " + request.getSession().getId());
         } else {
             String error = "Username or password is missing.";
             request.setAttribute("error", error);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-            rd.include(request, response);
+            rd.forward(request, response);
         }
 
         // check username and password against database
@@ -48,13 +47,4 @@ public class LoginServlet extends HttpServlet implements Routable {
 
     }
 
-    @Override
-    public String getMapping() {
-        return "/login";
-    }
-
-    @Override
-    public void setSecurityService(SecurityService securityService) {
-        this.securityService = securityService;
-    }
 }

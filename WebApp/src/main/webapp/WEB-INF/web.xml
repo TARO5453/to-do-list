@@ -1,0 +1,106 @@
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!--User management servlets -->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <!-- To-do list servlets -->
+    <servlet>
+        <servlet-name>ToDoListServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.ToDoListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ToDoListServlet</servlet-name>
+        <url-pattern>/todolist</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddToDoServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.AddToDoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToDoServlet</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditToDoServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.EditToDoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditToDoServlet</servlet-name>
+        <url-pattern>/edit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteToDoServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.DeleteToDoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteToDoServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ToggleToDoServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.ToggleToDoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ToggleToDoServlet</servlet-name>
+        <url-pattern>/toggle</url-pattern>
+    </servlet-mapping>
+
+    <!-- Redirect root -->
+    <servlet>
+        <servlet-name>DefaultServlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.DefaultServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DefaultServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!-- Error 404-->
+    <servlet>
+        <servlet-name>Error404Servlet</servlet-name>
+        <servlet-class>dev.taro.webapp.servlet.Error404Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Error404Servlet</servlet-name>
+        <url-pattern>/error404</url-pattern>
+    </servlet-mapping>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404</location>
+    </error-page>
+
+</web-app>

@@ -1,25 +1,22 @@
 package dev.taro.webapp.servlet;
 
-import dev.taro.webapp.Routable;
 import dev.taro.webapp.database.DatabaseManager;
-import dev.taro.webapp.service.SecurityService;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class ToDoListServlet extends HttpServlet implements Routable {
-    private SecurityService securityService;
+public class ToDoListServlet extends BaseServlet{
     private final DatabaseManager databaseManager = new DatabaseManager();
 
     // Servlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean authenticated = securityService.isAuthorized(request);
+        System.out.println("ToDoListServlet: Session ID = " + request.getSession().getId());
+        System.out.println("ToDoListServlet: Username = " + request.getSession().getAttribute("username"));
         if (authenticated) {
             String username = (String) request.getSession().getAttribute("username");
             request.setAttribute("todos", databaseManager.read(username));
@@ -28,14 +25,5 @@ public class ToDoListServlet extends HttpServlet implements Routable {
         } else {
             response.sendRedirect("/login");
         }
-    }
-    // Routable
-    @Override
-    public String getMapping() {
-        return "/todolist";
-    }
-    @Override
-    public void setSecurityService(SecurityService securityService) {
-        this.securityService = securityService;
     }
 }

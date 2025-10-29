@@ -7,19 +7,23 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 public class UserDatabaseManager {
-    private static final String URL = "jdbc:sqlite:data/users.db";
+    private static final String URL = System.getenv("USER_DB_URL");
+    private static final String USERNAME = System.getenv("USER_DB_USERNAME");
+    private static final String PASSWORD = System.getenv("USER_DB_PASSWORD");
     private static final HikariDataSource ds = new HikariDataSource();
     static {
         ds.setJdbcUrl(URL);
+        ds.setUsername(USERNAME);
+        ds.setPassword(PASSWORD);
     }
     public static DataSource getDataSource() {
         return ds;
     }
     public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "username TEXT NOT NULL," +
-                "password TEXT NOT NULL)";
+                "id INTEGER PRIMARY KEY AUTO_INCREMENT," +
+                "username VARCHAR(255) NOT NULL," +
+                "password VARCHAR(255) NOT NULL)";
         try (Connection connection = getDataSource().getConnection();
              PreparedStatement st = connection.prepareStatement(sql)){
             st.executeUpdate();
@@ -89,7 +93,7 @@ public class UserDatabaseManager {
             }
         }
         catch (SQLException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
         return false;
     }
