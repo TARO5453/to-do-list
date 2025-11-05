@@ -4,7 +4,7 @@ import dev.taro.webapp.database.UserDatabaseManager;
 import jakarta.servlet.http.HttpServletRequest;
 public class SecurityService {
 
-    private final UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
+    private final UserDatabaseManager userDatabaseManager = UserDatabaseManager.getInstance();
 
     public boolean isAuthorized(HttpServletRequest request) {
         String username = (String) request.getSession().getAttribute("username");

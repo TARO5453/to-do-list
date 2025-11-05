@@ -8,17 +8,27 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseManager {
+public class TodoDatabaseManager {
     private static final String URL = System.getenv("TODO_DB_URL");
     private static final String USERNAME = System.getenv("TODO_DB_USERNAME");
     private static final String PASSWORD = System.getenv("TODO_DB_PASSWORD");
-    private static final HikariDataSource ds = new HikariDataSource();
-    static {
+    // Singleton
+    private static final TodoDatabaseManager instance =  new TodoDatabaseManager();
+    // Hikari CP
+    private final HikariDataSource ds;
+
+    private TodoDatabaseManager() {
+        ds = new HikariDataSource();
         ds.setJdbcUrl(URL);
         ds.setUsername(USERNAME);
         ds.setPassword(PASSWORD);
     }
-    public static DataSource getDataSource() {
+    public static TodoDatabaseManager getInstance() {
+        return instance;
+    }
+
+
+    public DataSource getDataSource() {
         return ds;
     }
     public void createTable() {

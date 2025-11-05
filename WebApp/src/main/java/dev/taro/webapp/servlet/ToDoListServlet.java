@@ -1,6 +1,6 @@
 package dev.taro.webapp.servlet;
 
-import dev.taro.webapp.database.DatabaseManager;
+import dev.taro.webapp.database.TodoDatabaseManager;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ToDoListServlet extends BaseServlet{
-    private final DatabaseManager databaseManager = new DatabaseManager();
+    private final TodoDatabaseManager databaseManager = TodoDatabaseManager.getInstance();
 
     // Servlet
     @Override

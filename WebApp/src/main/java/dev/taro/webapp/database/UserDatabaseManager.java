@@ -10,13 +10,20 @@ public class UserDatabaseManager {
     private static final String URL = System.getenv("USER_DB_URL");
     private static final String USERNAME = System.getenv("USER_DB_USERNAME");
     private static final String PASSWORD = System.getenv("USER_DB_PASSWORD");
-    private static final HikariDataSource ds = new HikariDataSource();
-    static {
+    // Singleton design pattern
+    private static final UserDatabaseManager instance = new UserDatabaseManager();
+    // Hikari CP
+    private final HikariDataSource ds;
+    private UserDatabaseManager() {
+        ds = new HikariDataSource();
         ds.setJdbcUrl(URL);
         ds.setUsername(USERNAME);
         ds.setPassword(PASSWORD);
     }
-    public static DataSource getDataSource() {
+    public static UserDatabaseManager getInstance() {
+        return instance;
+    }
+    public DataSource getDataSource() {
         return ds;
     }
     public void createTable() {

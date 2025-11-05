@@ -19,7 +19,7 @@ public class RegisterServlet extends BaseServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserDatabaseManager  userDatabaseManager = new UserDatabaseManager();
+        UserDatabaseManager  userDatabaseManager = UserDatabaseManager.getInstance();
         // extract username and password from request
         String username = request.getParameter("username");
         String password = request.getParameter("password");

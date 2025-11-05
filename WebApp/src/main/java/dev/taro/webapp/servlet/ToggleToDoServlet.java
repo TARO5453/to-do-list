@@ -1,7 +1,7 @@
 package dev.taro.webapp.servlet;
 
 import dev.taro.webapp.ToDo;
-import dev.taro.webapp.database.DatabaseManager;
+import dev.taro.webapp.database.TodoDatabaseManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class ToggleToDoServlet extends BaseServlet{
     // Servlet
-    private final DatabaseManager databaseManager = new DatabaseManager();
+    private final TodoDatabaseManager databaseManager = TodoDatabaseManager.getInstance();
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get username from the session
