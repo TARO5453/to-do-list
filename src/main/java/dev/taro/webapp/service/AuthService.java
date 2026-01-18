@@ -1,23 +1,23 @@
 package dev.taro.webapp.service;
 
-import dev.taro.webapp.database.UserDatabaseManager;
+import dev.taro.webapp.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
-public class SecurityService {
+public class AuthService {
 
-    private final UserDatabaseManager userDatabaseManager = UserDatabaseManager.getInstance();
+    private final UserRepository userRepository = UserRepository.getInstance();
 
     public boolean isAuthorized(HttpServletRequest request) {
         String username = (String) request.getSession().getAttribute("username");
         // do checking
-        return (username != null && userDatabaseManager.exists(username));
+        return (username != null && userRepository.exists(username));
     }
 
     public boolean authenticate(String username, String password, HttpServletRequest request) {
-        String hashedPassword = userDatabaseManager.findUserByUsername(username);
+        String hashedPassword = userRepository.findUserByUsername(username);
         if (hashedPassword == null) {
             return false;
         }
-        boolean isMatched = userDatabaseManager.checkPassword(password, hashedPassword);
+        boolean isMatched = userRepository.checkPassword(password, hashedPassword);
         if (isMatched) {
             request.getSession().setAttribute("username", username);
             return true;

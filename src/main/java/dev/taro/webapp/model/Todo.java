@@ -1,13 +1,13 @@
-package dev.taro.webapp;
+package dev.taro.webapp.model;
 
-public class ToDo {
+public class Todo {
     private String title;
     private String username;
     private boolean done;
     private int id;
 
-    public ToDo() {}
-    public ToDo(int id, String username, String title, boolean done) {
+    public Todo() {}
+    public Todo(int id, String username, String title, boolean done) {
         this.title = title;
         this.username = username;
         this.id = id;

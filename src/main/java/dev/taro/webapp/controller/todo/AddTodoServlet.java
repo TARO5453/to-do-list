@@ -1,7 +1,8 @@
-package dev.taro.webapp.servlet;
+package dev.taro.webapp.controller.todo;
 
-import dev.taro.webapp.ToDo;
-import dev.taro.webapp.database.TodoDatabaseManager;
+import dev.taro.webapp.model.Todo;
+import dev.taro.webapp.repository.TodoRepository;
+import dev.taro.webapp.controller.common.BaseServlet;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,9 +11,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-public class AddToDoServlet extends BaseServlet {
+public class AddTodoServlet extends BaseServlet {
     // Servlet
-    private final TodoDatabaseManager databaseManager = TodoDatabaseManager.getInstance();
+    private final TodoRepository databaseManager = TodoRepository.getInstance();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -35,8 +36,8 @@ public class AddToDoServlet extends BaseServlet {
         String username = (String) session.getAttribute("username");
         String title = request.getParameter("title");
         if (title != null && !title.isBlank()) {
-            if (securityService.isAuthorized(request)) {
-                ToDo td = new ToDo();
+            if (authService.isAuthorized(request)) {
+                Todo td = new Todo();
                 td.setTitle(title);
                 td.setUsername(username);
                 td.setDone(false);

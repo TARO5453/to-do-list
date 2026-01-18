@@ -1,6 +1,7 @@
-package dev.taro.webapp.servlet;
+package dev.taro.webapp.controller.todo;
 
-import dev.taro.webapp.database.TodoDatabaseManager;
+import dev.taro.webapp.repository.TodoRepository;
+import dev.taro.webapp.controller.common.BaseServlet;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,9 +10,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-public class DeleteToDoServlet extends BaseServlet{
+public class DeleteTodoServlet extends BaseServlet {
     // Servlet
-    private final TodoDatabaseManager databaseManager = TodoDatabaseManager.getInstance();
+    private final TodoRepository databaseManager = TodoRepository.getInstance();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -33,7 +34,7 @@ public class DeleteToDoServlet extends BaseServlet{
         String username = (String) session.getAttribute("username");
         String title = request.getParameter("title");
         if (title != null && !title.isBlank()) {
-            if (securityService.isAuthorized(request)) {
+            if (authService.isAuthorized(request)) {
                 databaseManager.delete(username, title);
                 response.sendRedirect("/todolist");
             }

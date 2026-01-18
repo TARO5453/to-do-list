@@ -1,36 +1,37 @@
-package dev.taro.webapp.database;
+package dev.taro.webapp.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
-import dev.taro.webapp.ToDo;
+import dev.taro.webapp.model.Todo;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodoDatabaseManager {
+public class TodoRepository {
     private static final String URL = System.getenv("TODO_DB_URL");
     private static final String USERNAME = System.getenv("TODO_DB_USERNAME");
     private static final String PASSWORD = System.getenv("TODO_DB_PASSWORD");
     // Singleton
-    private static final TodoDatabaseManager instance =  new TodoDatabaseManager();
+    private static final TodoRepository instance =  new TodoRepository();
     // Hikari CP
     private final HikariDataSource ds;
-
-    private TodoDatabaseManager() {
+    
+    private TodoRepository() {
         ds = new HikariDataSource();
         ds.setJdbcUrl(URL);
         ds.setUsername(USERNAME);
         ds.setPassword(PASSWORD);
     }
-    public static TodoDatabaseManager getInstance() {
+    public static TodoRepository getInstance() {
         return instance;
     }
-
-
     public DataSource getDataSource() {
         return ds;
     }
+    /*
+        Please make sure to have MySQL database table created in the server like createTable() method
+     */
     public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS todos (" +
                 "id INTEGER PRIMARY KEY AUTO_INCREMENT," +
@@ -48,7 +49,7 @@ public class TodoDatabaseManager {
     }
     // CRUD
     // Create
-    public void create(ToDo td) {
+    public void create(Todo td) {
         try ( Connection connection = getDataSource().getConnection();
               PreparedStatement ps = connection.prepareStatement(
                 "INSERT INTO todos (username, title, done) VALUES (?, ?, ?)",
@@ -98,27 +99,8 @@ public class TodoDatabaseManager {
         }
     }
     // Read
-    public List<ToDo> readAll() {
-        List<ToDo> list = new ArrayList<>();
-        String sql = "SELECT * FROM todos";
-        try(Connection connection = getDataSource().getConnection();
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(sql)) {
-            while(rs.next()){
-                ToDo td = new ToDo(rs.getInt(1),
-                                    rs.getString(2),
-                                    rs.getString(3),
-                                rs.getInt(4) == 1);
-                list.add(td);
-            }
-        }
-        catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return list;
-    }
-    public List<ToDo> read(String username) {
-        List<ToDo> list = new ArrayList<>();
+    public List<Todo> read(String username) {
+        List<Todo> list = new ArrayList<>();
         try (Connection connection = getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(
                 "SELECT * FROM todos WHERE username = ?")
@@ -126,7 +108,7 @@ public class TodoDatabaseManager {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                ToDo td = new ToDo(rs.getInt(1),
+                Todo td = new Todo(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4) == 1);
@@ -138,8 +120,8 @@ public class TodoDatabaseManager {
         }
         return list;
     }
-    public ToDo read(String username, String title) {
-        ToDo td = null;
+    public Todo read(String username, String title) {
+        Todo td = null;
         try (Connection connection = getDataSource().getConnection();
              PreparedStatement ps = connection.prepareStatement(
                 "SELECT * FROM todos WHERE username = ? AND title = ?;")
@@ -148,7 +130,7 @@ public class TodoDatabaseManager {
             ps.setString(2, title);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
-                td = new ToDo(rs.getInt(1),
+                td = new Todo(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4) == 1);

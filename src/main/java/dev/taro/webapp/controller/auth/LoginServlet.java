@@ -1,6 +1,7 @@
-package dev.taro.webapp.servlet;
+package dev.taro.webapp.controller.auth;
 import java.io.IOException;
 
+import dev.taro.webapp.controller.common.BaseServlet;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ public class LoginServlet extends BaseServlet {
         String password = request.getParameter("password");
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
             System.out.println("Before auth: " + request.getSession().getId());
-            if (securityService.authenticate(username, password, request)) {
+            if (authService.authenticate(username, password, request)) {
                 System.out.println("Session ID: " + request.getSession().getId());
                 response.sendRedirect(request.getContextPath() +"/todolist");
                 System.out.println("Username in session: " + request.getSession().getAttribute("username"));

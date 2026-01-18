@@ -7,7 +7,7 @@
     <!--User management servlets -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.LoginServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.auth.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.LogoutServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.auth.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
@@ -25,7 +25,7 @@
 
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.RegisterServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.auth.RegisterServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
@@ -35,7 +35,7 @@
     <!-- To-do list servlets -->
     <servlet>
         <servlet-name>ToDoListServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.ToDoListServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.todo.TodoListServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ToDoListServlet</servlet-name>
@@ -44,7 +44,7 @@
 
     <servlet>
         <servlet-name>AddToDoServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.AddToDoServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.todo.AddTodoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddToDoServlet</servlet-name>
@@ -53,7 +53,7 @@
 
     <servlet>
         <servlet-name>EditToDoServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.EditToDoServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.todo.EditTodoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EditToDoServlet</servlet-name>
@@ -62,7 +62,7 @@
 
     <servlet>
         <servlet-name>DeleteToDoServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.DeleteToDoServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.todo.DeleteTodoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteToDoServlet</servlet-name>
@@ -71,7 +71,7 @@
 
     <servlet>
         <servlet-name>ToggleToDoServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.ToggleToDoServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.todo.ToggleTodoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ToggleToDoServlet</servlet-name>
@@ -81,7 +81,7 @@
     <!-- Redirect root -->
     <servlet>
         <servlet-name>DefaultServlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.DefaultServlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.common.DefaultServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DefaultServlet</servlet-name>
@@ -91,7 +91,7 @@
     <!-- Error 404-->
     <servlet>
         <servlet-name>Error404Servlet</servlet-name>
-        <servlet-class>dev.taro.webapp.servlet.Error404Servlet</servlet-class>
+        <servlet-class>dev.taro.webapp.controller.common.Error404Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Error404Servlet</servlet-name>

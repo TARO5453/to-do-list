@@ -1,14 +1,15 @@
-package dev.taro.webapp.servlet;
+package dev.taro.webapp.controller.auth;
 import java.io.IOException;
 
-import dev.taro.webapp.database.UserDatabaseManager;
+import dev.taro.webapp.repository.UserRepository;
+import dev.taro.webapp.controller.common.BaseServlet;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
-public class RegisterServlet extends BaseServlet{
+public class RegisterServlet extends BaseServlet {
 
 
     @Override
@@ -19,12 +20,12 @@ public class RegisterServlet extends BaseServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserDatabaseManager  userDatabaseManager = UserDatabaseManager.getInstance();
+        UserRepository userRepository = UserRepository.getInstance();
         // extract username and password from request
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
-            if (userDatabaseManager.createNewAccount(username, password)) {
+            if (userRepository.createNewAccount(username, password)) {
                 response.sendRedirect("/login");
             } else {
                 String error = "Username already exists.";

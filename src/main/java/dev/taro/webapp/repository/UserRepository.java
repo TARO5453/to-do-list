@@ -1,4 +1,4 @@
-package dev.taro.webapp.database;
+package dev.taro.webapp.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.mindrot.jbcrypt.BCrypt;
@@ -6,26 +6,30 @@ import org.mindrot.jbcrypt.BCrypt;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public class UserDatabaseManager {
+public class UserRepository {
     private static final String URL = System.getenv("USER_DB_URL");
     private static final String USERNAME = System.getenv("USER_DB_USERNAME");
     private static final String PASSWORD = System.getenv("USER_DB_PASSWORD");
     // Singleton design pattern
-    private static final UserDatabaseManager instance = new UserDatabaseManager();
+    private static final UserRepository instance = new UserRepository();
     // Hikari CP
     private final HikariDataSource ds;
-    private UserDatabaseManager() {
+
+    private UserRepository() {
         ds = new HikariDataSource();
         ds.setJdbcUrl(URL);
         ds.setUsername(USERNAME);
         ds.setPassword(PASSWORD);
     }
-    public static UserDatabaseManager getInstance() {
+    public static UserRepository getInstance() {
         return instance;
     }
     public DataSource getDataSource() {
         return ds;
     }
+    /*
+        Please make sure to have MySQL database table created in the server like createTable() method
+     */
     public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users (" +
                 "id INTEGER PRIMARY KEY AUTO_INCREMENT," +

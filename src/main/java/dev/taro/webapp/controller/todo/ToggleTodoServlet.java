@@ -1,7 +1,8 @@
-package dev.taro.webapp.servlet;
+package dev.taro.webapp.controller.todo;
 
-import dev.taro.webapp.ToDo;
-import dev.taro.webapp.database.TodoDatabaseManager;
+import dev.taro.webapp.model.Todo;
+import dev.taro.webapp.repository.TodoRepository;
+import dev.taro.webapp.controller.common.BaseServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,9 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
-public class ToggleToDoServlet extends BaseServlet{
+public class ToggleTodoServlet extends BaseServlet {
     // Servlet
-    private final TodoDatabaseManager databaseManager = TodoDatabaseManager.getInstance();
+    private final TodoRepository databaseManager = TodoRepository.getInstance();
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get username from the session
@@ -25,8 +26,8 @@ public class ToggleToDoServlet extends BaseServlet{
         String username = (String) session.getAttribute("username");
         String title = request.getParameter("title");
         if (!StringUtils.isBlank(title)) {
-            if (securityService.isAuthorized(request)) {
-                ToDo td = databaseManager.read(username, title);
+            if (authService.isAuthorized(request)) {
+                Todo td = databaseManager.read(username, title);
                 if (td != null) {
                     databaseManager.updateDone(username, title, !td.isDone());
                     response.sendRedirect("/todolist");
