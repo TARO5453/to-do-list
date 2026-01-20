@@ -20,6 +20,7 @@ public class UserRepository {
         ds.setJdbcUrl(URL);
         ds.setUsername(USERNAME);
         ds.setPassword(PASSWORD);
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
     }
     public static UserRepository getInstance() {
         return instance;

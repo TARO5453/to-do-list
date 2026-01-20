@@ -1,0 +1,32 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: tododb
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  tomcat:
+    image: todo-tomcat
+    container_name: tomcat-app
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      USER_DB_URL: jdbc:mysql://mysql:3306/tododb?useSSL=false&allowPublicKeyRetrieval=true
+      USER_DB_USERNAME: example
+      USER_DB_PASSWORD: example123
+      TODO_DB_URL: jdbc:mysql://mysql:3306/tododb?useSSL=false&allowPublicKeyRetrieval=true
+      TODO_DB_USERNAME: example
+      TODO_DB_PASSWORD: example123
+
+volumes:
+  mysql_data:

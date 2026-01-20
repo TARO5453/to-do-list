@@ -16,12 +16,13 @@ public class TodoRepository {
     private static final TodoRepository instance =  new TodoRepository();
     // Hikari CP
     private final HikariDataSource ds;
-    
+
     private TodoRepository() {
         ds = new HikariDataSource();
         ds.setJdbcUrl(URL);
         ds.setUsername(USERNAME);
         ds.setPassword(PASSWORD);
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
     }
     public static TodoRepository getInstance() {
         return instance;
